@@ -1,0 +1,9 @@
+numpy
+pandas
+beautifulsoup4
+aiohttp
+asyncio
+streamlit
+commbank-api-client
+flask
+python-dotenv
