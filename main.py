@@ -85,9 +85,9 @@ async def get_ith_transaction(
         val = -1 * float(row["amount"])
         diff = round_up - val
         rounded_sum += diff
+
     if debug:
         print(f"Page {i} has a sum of: ${round(rounded_sum, 2)}")
-
     return round(rounded_sum, 2), df
 
 
@@ -152,7 +152,7 @@ if __name__ == "__main__":
     print("Please log into the commbank client\n----------------")
 
     try:
-        usr = os.environ["COMMBANK_USR"]
+        usr = os.environ["COMMBANK_USR_CAMPBELL"]
     except KeyError:
         usr = str(input("Please enter your Netbank ID: "))
 

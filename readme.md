@@ -7,7 +7,7 @@ Gets the total sum of rounding up purchases to the nearest dollar for the last N
 
 Requirements:
   - Preinstalled: conda, pip, python, anaconda
-
+  
 
 ```sh
   pip install -r requirements.txt
