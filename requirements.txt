@@ -6,3 +6,16 @@ asyncio
 streamlit
 flask
 python-dotenv
+blinker
+click
+colorama
+Flask
+Flask-SQLAlchemy
+greenlet
+itsdangerous
+Jinja2
+MarkupSafe
+SQLAlchemy
+tinydb
+typing_extensions
+Werkzeug

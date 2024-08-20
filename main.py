@@ -20,6 +20,11 @@ from utils import (
 
 load_dotenv("./.env")
 
+try:
+    auth = os.environ["x-api-key"]
+except:
+    auth = None
+
 
 def get_date_n_days_back(n: int) -> str:
     now = datetime.today()
@@ -100,16 +105,62 @@ def transform(df: pd.DataFrame, new_col_name: Optional[str] = "dollar_diff"):
     return df
 
 
+def run_calc(name, days):
+    print("Please log into the commbank client\n----------------")
+
+    try:
+        usr = os.environ[f"COMMBANK_USR_{name.upper()}"]
+        pwd = os.environ[f"COMMBANK_PWD_{name.upper()}"]
+    except KeyError:
+        usr = str(input("Please enter your Netbank ID: "))
+
+    end_date = get_date_n_days_back(int(days))
+
+    results = asyncio.run(
+        get_n_pages_transactions(
+            usr,
+            pwd,
+            num_pages=10,
+            debug=False,
+        )
+    )
+
+    # get individual tuple lists
+    rounded_savings = [x[0] for x in results]
+    dfs: list = [x[1] for x in results]
+
+    # concat dfs
+    data: pd.DataFrame = pd.concat(dfs, axis=0)
+
+    # Run the iterator
+    iterator = DateIterator(df=data, stop=end_date)
+
+    # Call and transform to get the rounded purchases
+    df = iterator(transform=transform)
+
+    total_amount = np.sum(df["dollar_diff"])
+
+    # open data.json
+    data = load_json_file("./data.json")
+    val = round(np.sum(df["dollar_diff"]), 2)
+    data[datetime.now().strftime("%d-%m-%Y")] = val
+    return val
+
+
 if __name__ == "__main__":
     args = cli()
     print("Please log into the commbank client\n----------------")
+
     try:
         usr = os.environ["COMMBANK_USR"]
     except KeyError:
         usr = str(input("Please enter your Netbank ID: "))
+
     end_date = get_date_n_days_back(int(args.days))
+
     if args.debug:
         print(f"Stopping requests on: {end_date}")
+
     results = asyncio.run(
         get_n_pages_transactions(
             usr,
@@ -122,11 +173,9 @@ if __name__ == "__main__":
     # get individual tuple lists
     rounded_savings = [x[0] for x in results]
     dfs: list = [x[1] for x in results]
-    print(rounded_savings)
 
     # concat dfs
     data: pd.DataFrame = pd.concat(dfs, axis=0)
-    print(data.head())
 
     # Run the iterator
     iterator = DateIterator(df=data, stop=end_date)

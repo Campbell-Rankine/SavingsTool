@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Commbank Savings Tool</title>
+        <meta name="description" content="Commbank savings calculator utility">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+            body {
+                        background: linear-gradient(to right, #1f3827d0, #447052d0);
+                }
+                
+
+            .w3-card-4{
+                display: inline-block;
+                position: absolute;
+                top: 30%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(22, 15, 15, 0.336);
+                border-radius: 25px;
+                border: 1px solid #ffffff21;
+                padding: 10px;
+                backdrop-filter: blur(25px);
+                }
+            .container {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 200vh;
+                }
+
+            .shadowBox {
+                box-shadow: rgba(45, 50, 130, 0.15) 0px 12px 16px -4px, rgba(45, 50, 130, 0.15) 0px 4px 6px -2px;
+            }
+
+            .inBoxText {
+                color: rgba(216, 216, 216, 0.692);
+            }
+
+            .inBoxTitle {
+                color: rgba(240, 240, 240, 0.801);
+            }
+
+            .blurr {
+                backdrop-filter: blur(25px);
+            }
+
+            .requestItem {
+                color: rgba(240, 240, 240, 0.801);
+                background-color: #0000007a;
+            }
+
+            #popupContainer {
+                    display: none;
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: rgba(0, 0, 0, 0.26);
+                    z-index: 9999;
+                }
+
+            #popupContent {
+                    position: absolute;
+                    top: 70%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background-color: #5555558f;
+                    padding: 20px;
+                }
+
+            #closeButton {
+                margin-top: 10px;
+            }
+            #todoitem{
+                    border-radius: 7px;
+                    border: 1px solid #0000006b;
+                    padding: 5px;
+                    margin-top: 1rem;
+                    margin-left: 2px;
+                    margin-right: 2px;
+                    background-color: rgba(245, 245, 245, 0.116);
+            }
+            #todoitem_comp{
+                    border-radius: 7px;
+                    border: 1px solid #9fb4f8b4;
+                    margin-top: 2rem;
+                    margin-bottom: 2rem;
+                    margin-left: 15px;
+                    margin-right: 15px;
+                    background-color: #ffffff21;
+                    color: rgba(0, 0, 0, 0.589);
+            }
+        </style>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <div class="container">
+        <div class="datetime", style="padding-bottom: 2rem;"></div>
+        <div class="w3-card-4" style="margin:auto; width: 20%;" >
+                
+                <header class="w3-container;">
+                    <h3 class="inBoxTitle", style="text-align: center">Commbank Savings Calculator</h3>
+                </header>
+                <form action="/add" method="POST">
+                <div class="w3-container ", style="padding-top: 10px;">
+                    <label class="inBoxText", for="firstName">Please provide your first name</label>
+                    <input class="w3-input w3-border" style="margin-top: 5px; margin-bottom: 5px; background-color: #ffffff21; border-radius: 7px;", type="text" name="firstName" placeholder="First name...">
+                    <label class="inBoxText", for="numDays">Please provide the number of days you'd like to search</label>
+                    <input class="w3-input w3-border" style="margin-top: 5px; background-color: #ffffff21; border-radius: 7px;", type="text" name="numDays" placeholder="Number of days...">
+                    <button class="w3-button inBoxText" style="margin-top: 10px; border-radius: 7px; background-color: #ffffff21; align-content: center;" type="submit">Submit</button>
+                </div>
+                </form>
+
+                <!--{% for todo in todo_list%}
+                    <p>{{todo['title']}}</p>
+                    {% if todo['complete'] == False %}
+                        <span>Not complete</span>
+                    {% else %}
+                        <span>completed</span>
+                    {% endif %}
+                    <a href="/update/{{todo['id']}}"> <i class="fa fa-pencil"></i></a>
+                    <a href="/delete/{{todo['id']}}"><i class="fa fa-trash-o"></i></a>
+                {% endfor%}-->
+                
+                {% for todo in todo_list %}
+                    {% if todo['value'] < 0 %}
+                        <div id = "todoitem">
+                        <p id = "{{todo['id']}}">{{todo['id']}}</p>
+                        <button><a href="/complete/{{todo['id']}}"> <i class="fa fa-check"></i></a></button>
+                        <button><a href="/delete/{{todo['id']}}"><i class="fa fa-trash-o"></i></a></button>
+                        </div>
+                    {% else %}
+                        <div id = "todoitem_comp" class="requestItem">
+                        <p style="padding-left: 1rem;">{{todo['firstName']}}'s savings over {{todo['numDays']}} days: ${{todo['value']}}<button style="align-content: center; margin-left: 7rem;"><a href="/delete/{{todo['id']}}"><i class="fa fa-trash-o"></i></a></button></p>
+                    </div>
+                    {% endif %}
+                    
+                {% endfor%}
+            
+        </div>
+    </div>
+    <div id="popupContainer">
+  <div id="popupContent">
+    <form action="/update" method="POST">
+        <input type="hidden" id="hiddenField" name="hiddenField">
+        <input type="text" id="inputField" placeholder="Enter text" name="inputField">
+        <button id="closeButton" type="submit">Update</button>
+    </form>
+  </div>
+</div>
+    <script>
+            function updateDateTime() {
+                var datetimeElement = document.querySelector('.datetime');
+                var currentDateTime = new Date();
+                datetimeElement.innerHTML = currentDateTime.toLocaleString();
+            }
+            // Update the date and time immediately
+            updateDateTime();
+            // Update the date and time every second
+            setInterval(updateDateTime, 1000); 
+
+            //pop input filed to modify the text
+            function openPopup(displayTextId) {
+                var displayText = document.getElementById(displayTextId).textContent;
+                var inputField = document.getElementById("inputField");
+                var hiddenField = document.getElementById("hiddenField");
+                inputField.value = displayText;
+                hiddenField.value = displayTextId;
+                document.getElementById("popupContainer").style.display = "block";
+            }
+
+            function closePopup() {
+                    document.getElementById("popupContainer").style.display = "none";
+            }
+
+</script>
+</body>
+</html>
