@@ -60,4 +60,23 @@ def complete(todo_id):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+
+    def parse_cli():
+        import argparse
+
+        parser = argparse.ArgumentParser()
+
+        parser.add_argument(
+            "-d",
+            "--debug",
+            dest="debug",
+            metavar="bool",
+            default=False,
+            type=bool,
+            help="debug toggle (default=False)",
+        )
+
+        return parser.parse_args()
+
+    args = parse_cli()
+    app.run(host="0.0.0.0", debug=args.debug)
