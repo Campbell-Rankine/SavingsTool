@@ -41,4 +41,4 @@ Requirements:
     python app.py
     python3 app.py
 ```
-4. On your browser go to the following address: 192.168.0.9:8000
+4. On your browser go to the following address: 192.XXX.X.X:8000

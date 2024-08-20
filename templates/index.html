@@ -144,7 +144,7 @@
                         </div>
                     {% else %}
                         <div id = "todoitem_comp" class="requestItem">
-                        <p style="padding-left: 1rem;">{{todo['firstName']}}'s savings over {{todo['numDays']}} days: ${{todo['value']}}<button style="align-content: center; margin-left: 7rem;"><a href="/delete/{{todo['id']}}"><i class="fa fa-trash-o"></i></a></button></p>
+                        <p style="padding-left: 1rem; text-align: center">{{todo['firstName']}}'s savings over {{todo['numDays']}} days: ${{todo['value']}}<button style="align-content: center; margin-left: 7rem;"><a href="/delete/{{todo['id']}}"><i class="fa fa-trash-o"></i></a></button></p>
                     </div>
                     {% endif %}
                     
