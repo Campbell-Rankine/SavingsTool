@@ -24,3 +24,18 @@ Requirements:
     python main.py --help
     python3 main.py --help
   ```
+
+### **Deploying to your local WIFI network**:
+
+    1. create a file called .env
+    2. Copy and paste the following into .env:
+```sh
+    COMMBANK_USR_<YOUR_FIRST_NAME> = <YOUR_FIRST_NAME>
+    COMMBANK_PWD_<YOUR_FIRST_NAME> = <YOUR_COMMBANK_PASSWORD>
+```
+    3. Run the following command to initialize the server:
+```sh
+    python app.py
+    python3 app.py
+```
+    4. On your browser go to the following address: 192.168.0.9:8000
